@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  actor: MyString
+  anime_name: MyString
+  character: MyString
+  zimusho: MyString
+
+two:
+  actor: MyString
+  anime_name: MyString
+  character: MyString
+  zimusho: MyString

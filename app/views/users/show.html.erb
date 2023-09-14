@@ -1,0 +1,29 @@
+<h1>users#show</h1>
+<%= image_tag @user.image_url, size: "250x200" if @user.image? %>
+<p>名前 : <%= @user.name %></p>
+<p>メールアドレス : <%= @user.email %></p>
+<p>プロフィール : <%= @user.profile %></p>
+
+<% if current_user.id == @user.id %>
+    <%= link_to "編集する", edit_user_registration_path %>
+<% end %>
+
+<h2>ユーザーの投稿一覧</h2>
+<% @user.animes.each do |t| %>
+    <%= t.user.name %>
+    <%= t.anime_name %>
+    <%= t.genre %>
+    <%= t.age %>
+<% end %>
+
+<!-- 以下はいいね機能を実装している場合-->
+<h2>ユーザーがいいねした投稿一覧</h2>
+<% @user.liked_animes.each do |t| %>
+    <%= t.user.name %>
+    <%= t.anime_name %>
+    <%= t.genre %>
+    <%= t.age %>
+<% end %>
+<!-- ここまで-->
+
+<%= link_to "Anime一覧に戻る", animes_path %>

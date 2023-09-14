@@ -1,0 +1,51 @@
+<h1>GeekTwitter</h1>
+<h3>Anime詳細</h3>
+<div class="actor">
+    <p><%= @actor.actor %></p>
+    <p><%= @actor.zimusho %></p>
+    <p><%= @actor.character %></p>
+    <p><%= @actor.anime_name %></p>
+    <div>
+        <h2>総合評価：
+            <p><%= @actor.overall %></p>
+        </h2>
+    </div>
+    <% if user_signed_in? %>
+        <% if current_user.already_liked?(@actor) %>
+            <%= button_to anime_like_path(@actor), method: :delete do %>
+                <i class="fa-regular fa-heart"></i><%= @actor.likes.count %>
+                <% end %>
+        <% else %>
+            <%= button_to company_likes_path(@actor), method: :post do %>
+                <i class="fa-regular fa-heart"></i><%= @actor.likes.count %>
+            <% end %>
+        <% end %>
+        <% else %>
+            <i class="fa-regular fa-heart"></i><%= @actor.likes.count %>
+        <% end %>
+
+    <%= link_to "編集する", edit_anime_path(@actor.id) %>
+</div>
+  
+<div class="comment-wrapper">
+    <p>コメント一覧</p>
+    <% @reviews.each do |c| %>
+        <div>
+            <%= c.user.email unless c.user.blank? %>
+            <br>
+            <%= c.content %>
+        </div>
+        <br>
+    <% end %>
+
+    <% if user_signed_in? %>
+        <%= form_with(model: [@actor, @review], local: true) do |f| %>
+            <%= f.text_area :content %>
+            <%= button_tag type: "submit" do %>
+                <i class="far fa-comments"></i> コメントする
+            <% end %>
+        <% end %>
+    <% end %>
+</div>
+
+<%= link_to "一覧に戻る", actors_path %>

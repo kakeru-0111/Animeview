@@ -1,0 +1,23 @@
+<%= form_for @company do |f| %>
+    <div class="field">
+        <%= f.label :company_name %>
+        <%= f.text_field :company_name, :size => 30 %>
+
+    </div>
+    <div class="field">
+        <%= f.label :anime_name %>
+        <%= f.text_field :anime_name, :size => 30 %>
+
+    </div>
+    <h5>総合評価</h5>
+        <div class="field">
+            <%= f.label :overall  %>
+            <%= f.number_field :overall, :size => 10 %>
+    
+        </div>
+
+
+    <%= f.submit "編集する" %>
+<% end %>
+
+<%= link_to "一覧に戻る", companies_path %>

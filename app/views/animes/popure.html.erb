@@ -1,0 +1,65 @@
+<h1>自分の題名</h1>
+<h3>ランキングページ</h3>
+<h3>投稿を検索</h3>
+<%= form_tag({controller:"animes",action:"popure"}, method: :get) do %>
+    <%= text_field_tag :search %>
+    <% Tag.all.each do |t| %>
+        <li><%= check_box :tag_ids, t.name %><%= t.name %></li>
+    <% end %>
+    <%= submit_tag '検索する'  %>
+<% end %>
+<%= link_to "新規投稿へ", new_anime_path %>
+<%= link_to "一覧に戻る", animes_path %>
+<div class="animes-container">
+    <% @rank_animes.each do |t| %>
+        <div class="anime">
+            <%= t.user.email %>
+            <%= image_tag t.user.image_url, size: "250x200" if t.user.image? %>
+            <h2><%= t.anime_name %></h2>
+            <h2><%= t.genre %></h2>
+            <h2><%= t.age %></h2>
+            <%= t.created_at %>
+            <% if user_signed_in? %>
+                <% if current_user.already_liked?(t) %>
+                    <%= button_to anime_like_path(id: t.id, anime_id: t.id), method: :delete do %>
+                        <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+                    <% end %>
+                <% else %>
+                    <%= button_to anime_likes_path(id: t.id, anime_id: t.id), method: :post do %>
+                        <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+            <% end %>
+            <div>
+                <h2>総合評価：
+                    <%= t.overall %>
+                </h2>
+            </div>
+            <%= t.created_at %>
+                <% if user_signed_in? %>
+                    <% if current_user.already_liked?(t) %>
+                        <%= button_to anime_like_path(id: t.id, anime_id: t.id), method: :delete do %>
+                            <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+                        <% end %>
+                    <% else %>
+                        <%= button_to anime_likes_path(id: t.id, anime_id: t.id), method: :post do %>
+                            <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+                        <% end %>
+                    <% end %>
+                <% else %>
+                    <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+                <% end %>
+# ここまで      
+            <%= link_to "詳細へ", anime_path(t.id) %>
+            <% if user_signed_in? && current_user.id == t.user_id %>
+                <%= link_to "編集する", edit_anime_path(t.id) %>
+                <%= button_to "削除する", anime_path(t.id), method: :delete %>
+            <% end %>
+      
+# ここまで      
+      
+        </div>
+    <% end %>
+</div>

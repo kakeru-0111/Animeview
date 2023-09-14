@@ -1,0 +1,49 @@
+<h1>GeekTwitter</h1>
+<h3>Anime詳細</h3>
+<div class="company">
+    <p><%= @company.company_name %></p>
+    <p><%= @company.anime_name %></p>
+    <div>
+        <h2>総合評価：
+            <p><%= @company.overall %></p>
+        </h2>
+    </div>
+    <% if user_signed_in? %>
+        <% if current_user.already_liked?(@company) %>
+            <%= button_to anime_like_path(@company), method: :delete do %>
+                <i class="fa-regular fa-heart"></i><%= @company.likes.count %>
+                <% end %>
+        <% else %>
+            <%= button_to company_likes_path(@company), method: :post do %>
+                <i class="fa-regular fa-heart"></i><%= @company.likes.count %>
+            <% end %>
+        <% end %>
+        <% else %>
+            <i class="fa-regular fa-heart"></i><%= @company.likes.count %>
+        <% end %>
+
+    <%= link_to "編集する", edit_anime_path(@company.id) %>
+</div>
+  
+<div class="comment-wrapper">
+  <p>コメント一覧</p>
+  <% @comments.each do |c| %>
+    <div>
+      <%= c.user.email unless c.user.blank? %>
+      <br>
+      <%= c.content %>
+    </div>
+      <br>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <%= form_with(model: [@company, @comment], local: true) do |f| %>
+      <%= f.text_area :content %>
+      <%= button_tag type: "submit" do %>
+        <i class="far fa-comments"></i> コメントする
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to "Comapany一覧に戻る", companies_path %>

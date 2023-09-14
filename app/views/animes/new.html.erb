@@ -1,0 +1,55 @@
+<h1>(自分の題名)</h1>
+<h3>新規投稿ページ</h3>
+<%= form_for @anime do |f| %>
+
+# データ型がstringで自由記述の入力フォーム
+  <div class="field">
+    <%= f.label :anime_name %>
+    <%= f.text_field :anime_name, :size => 30 %>
+
+  </div>
+  <div class="field">
+    <%= f.label :company_name %>
+    <%= f.text_field :company_name, :size => 30 %>
+
+  </div>
+
+
+
+# データ型がstringで選択式の入力フォーム
+  <div class="field">
+    <%= f.label :genre  %>
+    <%= f.select :genre, 
+    [["サスペンス", "サスペンス"], 
+    ["アクション・バトル", "アクション・バトル"], 
+    ["学園・青春", "学園・青春"]], include_blank: "選択して下さい" %>
+  </div>
+
+# データ型がstringで数字のみを入力するフォーム
+  <div class="field">
+    <%= f.label :age  %>
+    <%= f.text_field :age, :size => 10 %>
+  </div>
+
+  <h5>総合評価</h5>
+  <div class="field">
+    <%= f.label :overall  %>
+    <%= f.number_field :overall, :size => 10 %>
+    
+  </div>
+  <div class='form-group'>
+    <%= f.collection_check_boxes(:tag_ids, Tag.all, :id, :name) do |tag| %>
+      <div class='form-check'>
+        <%= tag.label class: 'form-check-label' do %>
+          <%= tag.check_box class: 'form-check-input' %>
+          <%= tag.text %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+
+  <%= f.submit "投稿する" %>
+<% end %>
+
+<%= link_to "一覧に戻る", animes_path %>

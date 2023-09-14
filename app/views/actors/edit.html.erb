@@ -1,0 +1,37 @@
+<%= form_for @actor do |f| %>
+
+    # データ型がstringで自由記述の入力フォーム
+        <div class="field">
+            <%= f.label :actor %>
+            <%= f.text_field :actor, :size => 30 %>
+    
+        </div>
+    
+        <div class="field">
+            <%= f.label :zimusho %>
+            <%= f.text_field :zimusho, :size => 30 %>
+    
+        </div>
+    
+        <div class="field">
+            <%= f.label :character %>
+            <%= f.text_field :character, :size => 30 %>
+    
+        </div>
+        <div class="field">
+            <%= f.label :anime_name %>
+            <%= f.text_field :anime_name, :size => 30 %>
+    
+        </div>
+        <h5>総合評価</h5>
+            <div class="field">
+                <%= f.label :overall  %>
+                <%= f.number_field :overall, :size => 10 %>
+        
+            </div>
+    
+    
+        <%= f.submit "投稿する" %>
+    <% end %>
+    
+    <%= link_to "一覧に戻る", actors_path %>

@@ -1,0 +1,55 @@
+<h1>GeekTwitter</h1>
+<h3>Anime詳細</h3>
+<div class="anime">
+  <p><%= @anime.anime_name %></p>
+  <p><%= @anime.company_name %></p>
+  <p><%= @anime.genre %></p>
+  <p><%= @anime.age %></p>
+  <div>
+    <h2>総合評価：
+      <p><%= @anime.overall %></p>
+    </h2>
+  </div>
+  <p><%= @anime.created_at %></p>
+  <% @anime.tags.each do |tag| %>
+    <span><%= tag.name %></span>
+  <% end %>
+  <% if user_signed_in? %>
+      <% if current_user.already_liked?(@anime) %>
+        <%= button_to anime_like_path(@anime), method: :delete do %>
+          <i class="fa-regular fa-heart"></i><%= @anime.likes.count %>
+        <% end %>
+      <% else %>
+        <%= button_to anime_likes_path(@anime), method: :post do %>
+          <i class="fa-regular fa-heart"></i><%= @anime.likes.count %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <i class="fa-regular fa-heart"></i><%= @anime.likes.count %>
+    <% end %>
+
+  <%= link_to "編集する", edit_anime_path(@anime.id) %>
+</div>
+
+<div class="comment-wrapper">
+  <p>コメント一覧</p>
+  <% @comments.each do |c| %>
+    <div>
+      <%= c.user.email unless c.user.blank? %>
+      <br>
+      <%= c.content %>
+    </div>
+      <br>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <%= form_with(model: [@anime, @comment], local: true) do |f| %>
+      <%= f.text_area :content %>
+      <%= button_tag type: "submit" do %>
+        <i class="far fa-comments"></i> コメントする
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to "Anime一覧に戻る", animes_path %>
